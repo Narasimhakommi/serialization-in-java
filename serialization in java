@@ -1,0 +1,93 @@
+import java.io.*;
+import java.io.Serializable;
+import java.util.*;
+import java.time.*; 
+abstract class Person{
+   
+    private String name;
+    Person()
+    {
+
+    }
+    Person(String name){
+       setname(name);
+    }
+   abstract void display();
+   
+   public void setname(String name) {
+       this.name = name;
+   }
+   public String getname() {
+       return name;
+   }
+}
+class Employee extends Person implements Serializable{
+   
+     int id;
+     LocalDate date_of_join;
+    Employee()
+    {
+
+    }
+    String namer;
+    Employee(String name,int id,LocalDate date_of_join){
+        super(name);
+        namer=super.getname();
+        this.id=id;
+        this.date_of_join=date_of_join;
+
+    }
+   public int getid() {
+       return id;
+   }
+   public void setStuid(int id) {
+       this.id = id;
+   }
+   public LocalDate getdate_of_join() {
+       return date_of_join;
+   }
+   public void setdate_of_join(LocalDate date_of_join) {
+       this.date_of_join = date_of_join;
+   }
+    void display(){
+        System.out.println("Name -> "+namer  +"ID -> "+id+"  "+"date_of_join -> "+date_of_join);
+    }
+}
+class Kommi
+{
+	public static void writers(ArrayList<Employee> a1) throws Exception
+	{
+        FileOutputStream fout=new FileOutputStream("records.txt");
+        ObjectOutputStream out=new ObjectOutputStream(fout);
+        out.writeObject(a1);
+        out.flush();
+	}
+	public static void readers() throws Exception
+	{
+        ObjectInputStream in=new ObjectInputStream(new FileInputStream("records.txt"));
+        ArrayList<Employee> a1=(ArrayList)in.readObject();
+        for(Employee e:a1)
+        {
+           e.display();
+        }
+        in.close();
+	}
+	 public static void main(String args[])throws Exception
+	 {
+	      Employee s1 =new Employee("ravi",211,LocalDate.parse("2018-12-27"));
+	      Employee s2 =new Employee("ravi",211,LocalDate.parse("2018-12-27"));
+	      Employee s3 =new Employee("ravi",211,LocalDate.parse("2018-12-27"));
+	      Employee s4 =new Employee("ravi",211,LocalDate.parse("2018-12-27"));
+	      Employee s5 =new Employee("ravi",211,LocalDate.parse("2018-12-27"));
+          Employee s6 =new Employee("ravi",211,LocalDate.parse("2018-12-27"));
+	      ArrayList<Employee> a1=new ArrayList<>();
+	      a1.add(s1);
+	      a1.add(s2);
+	      a1.add(s3);
+	      a1.add(s4);
+	      a1.add(s5);
+	      a1.add(s6);
+          writers(a1);
+          readers();
+     }
+}
